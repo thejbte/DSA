@@ -58,20 +58,35 @@ void stackDestroy(Stack_t *st) {
 
 
 int stackSize(Stack_t * st) {
-    return st != NULL ? st->size : -1;
+    if (st != NULL) {
+        return st->size;
+    } else {
+        printf("Error:\n");
+        return -1;
+    }
 }
 
 bool stackIsEmpty(Stack_t *st) {
-    return st->size <= 0;
+    if (st != NULL) {
+        return st->size <= 0;
+    } else {
+        printf("Error:\n");
+        return false;
+    }
 }
 
 
 bool stackIsFull(Stack_t *st) {
-    #ifdef STACK_STATIC_MEM
-    return st->size == MAX_SIZE_STACK;
-    #else
-    return st->size == st->capacity;
-    #endif
+    if (st != NULL) {
+        #ifdef STACK_STATIC_MEM
+        return st->size == MAX_SIZE_STACK;
+        #else
+        return st->size == st->capacity;
+        #endif
+    } else {
+        printf("Error:\n");
+        return false;
+    }
 }
 
 int stackTop(Stack_t *st) {
@@ -83,21 +98,44 @@ int stackTop(Stack_t *st) {
     }
 }
 
-void stackPush(Stack_t *st, int value) {
-    if (st != NULL && !stackIsFull(st)) {
+// Resize the stack (double the capacity)
+bool resize(Stack_t* st) {
+    int new_capacity = st->capacity * 2;
+    int* new_array = (int*)realloc(st->stack_array, new_capacity * sizeof(int));
+
+    if (!new_array) return false;  // Memory allocation failed
+
+    st->stack_array = new_array;
+    st->capacity = new_capacity;
+    return true;
+}
+
+bool stackPush(Stack_t *st, int value) {
+
+    if(stackIsFull(st)) {
+        if (!resize(st)) {
+            printf("Error: stack is full\n");
+            return false;  // Resize failed
+        }
+    }
+
+    if (st != NULL) {
          st->stack_array[st->size++] = value;
+         return true;
     } else {
-        printf("Error: stack is full\n");
+        printf("Error: addresses of stack is NULL\n");
+        return false;
     }
 }
 
 
-int stackPop(Stack_t *st) {
+bool stackPop(Stack_t *st) {
     if (st != NULL && !stackIsEmpty(st)) {
-        return st->stack_array[st->size--];
+        st->size--;
+        return true;
     } else {
         printf("Error: Stack is Empty\n");
-        return -1;
+        return false;
     }
 }
 
