@@ -11,11 +11,17 @@ int main() {
     #ifdef STACK_STATIC_MEM
     Stack_t *my_stack = stackInitialization();
     #else
-    Stack_t *my_stack = stackCreate(10);
+    Stack_t *my_stack = stackCreate(5);
     #endif
 
     stackPrint(my_stack);
 
+    stackPush(my_stack, 10);
+    stackPush(my_stack, 20);
+    stackPush(my_stack, 30);
+    stackPush(my_stack, 40);
+    stackPush(my_stack, 50);
+    //to resize
     stackPush(my_stack, 10);
     stackPush(my_stack, 20);
     stackPush(my_stack, 30);
