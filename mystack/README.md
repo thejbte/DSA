@@ -1,3 +1,21 @@
+- folder structure
+
+```vim
+.
+├── mystack
+│   ├── C   🔥
+│   │   ├── main.c
+│   │   ├── mystack.c
+│   │   └── mystack.h
+│   ├── Cpp  🔥
+│   │   ├── main.cpp
+│   │   ├── mystack.cpp
+│   │   └── mystack.hpp
+│   └── README.md
+
+```
+
+
 -   **Static Stack (Fixed Size)**
 ```sql
     +---------+
