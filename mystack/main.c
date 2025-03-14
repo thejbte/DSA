@@ -11,7 +11,7 @@ int main() {
     #ifdef STACK_STATIC_MEM
     Stack_t *my_stack = stackInitialization();
     #else
-    Stack_t *my_stack = stackCreate();
+    Stack_t *my_stack = stackCreate(10);
     #endif
 
     stackPrint(my_stack);

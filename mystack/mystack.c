@@ -7,9 +7,14 @@
 
 
 typedef  struct Stack_t {
+    #ifdef STACK_STATIC_MEM
     int stack_array[MAX_SIZE_STACK];
+    #else
+    int *stack_array;
+    #endif
+
     int size;
-    ///capacity
+    int capacity;
 }Stack_t;
 
 #ifdef STACK_STATIC_MEM
@@ -25,24 +30,33 @@ Stack_t* stackInitialization(void) {
 
 #else
 
-Stack_t* stackCreate(void) {
-    Stack_t* stack = malloc(sizeof(Stack_t));
+Stack_t* stackCreate(int capacity) {
+    Stack_t* stack = (Stack_t*)malloc(sizeof(Stack_t));
     if (stack == NULL) {
         printf("Error: bad memmory allocation\n");
         return NULL;
     }
-    memset(stack->stack_array, 0, sizeof(int)*MAX_SIZE_STACK);
+    stack->capacity = capacity;
+    stack->stack_array = (int*)calloc( sizeof(int), stack->capacity);
     stack->size = 0;
 
     return stack;
 }
 
 void stackDestroy(Stack_t *st) {
+
+    #ifndef STACK_STATIC_MEM
+    free(st->stack_array);
+    st->stack_array = NULL;
     free(st);
     st = NULL;
+    #endif
+
 }
 
 #endif
+
+
 int stackSize(Stack_t * st) {
     return st != NULL ? st->size : -1;
 }
@@ -53,7 +67,11 @@ bool stackIsEmpty(Stack_t *st) {
 
 
 bool stackIsFull(Stack_t *st) {
+    #ifdef STACK_STATIC_MEM
     return st->size == MAX_SIZE_STACK;
+    #else
+    return st->size == st->capacity;
+    #endif
 }
 
 int stackTop(Stack_t *st) {

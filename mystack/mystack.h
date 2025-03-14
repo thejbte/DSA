@@ -3,18 +3,21 @@
 
 #include <stdbool.h>
 
-#define MAX_SIZE_STACK (10)
-
 
 //private definition in mystack.c
 typedef struct Stack_t Stack_t;
 
 #ifdef STACK_STATIC_MEM
+
+#define MAX_SIZE_STACK (10)
 Stack_t* stackInitialization(void);
+
 #else
-Stack_t* stackCreate(void);
+
+Stack_t* stackCreate(int capacity);
 
 void stackDestroy(Stack_t *st);
+
 #endif
 
 
