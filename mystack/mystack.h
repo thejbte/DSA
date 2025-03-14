@@ -30,10 +30,12 @@ bool stackIsFull(Stack_t *st);
 
 int stackTop(Stack_t *st);
 
-void stackPush(Stack_t *st, int value);
+bool resize(Stack_t* st);
+
+bool stackPush(Stack_t *st, int value);
 
 
-int stackPop(Stack_t *st);
+bool stackPop(Stack_t *st);
 
 void stackPrint(Stack_t *st);
 
